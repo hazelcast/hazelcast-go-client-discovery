@@ -39,7 +39,7 @@ func (ds *EC2DiscoveryStrategy) Start(_ context.Context, opts hzdiscovery.Strate
 	ds.logger = opts.Logger
 	ds.client.logger = ds.logger
 	ds.debug(func() string {
-		return fmt.Sprintf("Started AWS Discovery Strategy %d", discovery.Version)
+		return fmt.Sprintf("Started AWS Discovery Strategy %s", discovery.Version)
 	})
 	return nil
 }
