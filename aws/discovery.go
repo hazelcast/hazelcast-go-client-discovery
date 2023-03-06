@@ -2,12 +2,15 @@ package aws
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/aws/aws-sdk-go-v2/service/ec2/types"
 	"github.com/hazelcast/hazelcast-go-client/cluster"
-	"github.com/hazelcast/hazelcast-go-client/cluster/discovery"
+	hzdiscovery "github.com/hazelcast/hazelcast-go-client/cluster/discovery"
 	"github.com/hazelcast/hazelcast-go-client/logger"
+
+	"github.com/hazelcast/hazelcast-go-client-discovery"
 )
 
 type EC2DiscoveryStrategy struct {
@@ -32,16 +35,16 @@ func NewEC2DiscoveryStrategy(cfg Config) (*EC2DiscoveryStrategy, error) {
 	}, nil
 }
 
-func (ds *EC2DiscoveryStrategy) Start(_ context.Context, opts discovery.StrategyOptions) error {
+func (ds *EC2DiscoveryStrategy) Start(_ context.Context, opts hzdiscovery.StrategyOptions) error {
 	ds.logger = opts.Logger
 	ds.client.logger = ds.logger
 	ds.debug(func() string {
-		return "Started AWS Discovery Strategy"
+		return fmt.Sprintf("Started AWS Discovery Strategy %d", discovery.Version)
 	})
 	return nil
 }
 
-func (ds *EC2DiscoveryStrategy) DiscoverNodes(ctx context.Context) ([]discovery.Node, error) {
+func (ds *EC2DiscoveryStrategy) DiscoverNodes(ctx context.Context) ([]hzdiscovery.Node, error) {
 	ds.debug(func() string {
 		return "aws.EC2DiscoveryStrategy.DiscoverNodes"
 	})
@@ -49,12 +52,12 @@ func (ds *EC2DiscoveryStrategy) DiscoverNodes(ctx context.Context) ([]discovery.
 	if err != nil {
 		return nil, err
 	}
-	var nodes []discovery.Node
+	var nodes []hzdiscovery.Node
 	for port := ds.portRange.Min; port <= ds.portRange.Max; port++ {
 		for _, is := range iss {
 			p := is.PublicIP + ":" + strconv.Itoa(port)
 			pr := is.PrivateIP + ":" + strconv.Itoa(port)
-			nodes = append(nodes, discovery.Node{
+			nodes = append(nodes, hzdiscovery.Node{
 				PublicAddr:  p,
 				PrivateAddr: pr,
 			})
