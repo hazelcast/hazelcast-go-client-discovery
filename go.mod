@@ -29,4 +29,4 @@ require (
 	golang.org/x/sys v0.1.0 // indirect
 )
 
-replace github.com/hazelcast/hazelcast-go-client v1.4.0 => github.com/yuce/hazelcast-go-client v1.1.2-0.20230309185934-ce3e7d2b1ade
+replace github.com/hazelcast/hazelcast-go-client v1.4.0 => github.com/hazelcast/hazelcast-go-client v1.3.1-0.20230309185934-ce3e7d2b1ade
