@@ -76,6 +76,34 @@ func TestDiscovery_Success(t *testing.T) {
 	}))
 	nodes := mustValue(st.DiscoverNodes(ctx))
 	target := []discovery.Node{
+		{PrivateAddr: "172.31.20.2:6000"},
+		{PrivateAddr: "172.31.18.15:6000"},
+		{PrivateAddr: "172.31.20.2:6001"},
+		{PrivateAddr: "172.31.18.15:6001"},
+	}
+	if !reflect.DeepEqual(target, nodes) {
+		t.Fatalf("\n%v\n!=\n%v", target, nodes)
+	}
+}
+
+func TestDiscovery_Success_UsePublicIP(t *testing.T) {
+	ctx := context.Background()
+	mc := &MockEC2Client{}
+	cfg := Config{
+		ec2Client: mc,
+		PortRange: cluster.PortRange{
+			Min: 6000,
+			Max: 6001,
+		},
+	}
+	cfg.SetFilters(Tag("App", "foo"))
+	st := mustValue(NewEC2DiscoveryStrategy(cfg))
+	must(st.Start(ctx, discovery.StrategyOptions{
+		Logger:      &MockLogger{},
+		UsePublicIP: true,
+	}))
+	nodes := mustValue(st.DiscoverNodes(ctx))
+	target := []discovery.Node{
 		{
 			PrivateAddr: "172.31.20.2:6000",
 			PublicAddr:  "18.117.130.41:6000",
