@@ -14,10 +14,11 @@ import (
 )
 
 type EC2DiscoveryStrategy struct {
-	client    *client
-	filters   []types.Filter
-	portRange cluster.PortRange
-	logger    logger.Logger
+	client      *client
+	filters     []types.Filter
+	portRange   cluster.PortRange
+	logger      logger.Logger
+	usePublicIP bool
 }
 
 // NewEC2DiscoveryStrategy creates a new EC2 discovery strategy.
@@ -36,6 +37,7 @@ func NewEC2DiscoveryStrategy(cfg Config) (*EC2DiscoveryStrategy, error) {
 }
 
 func (ds *EC2DiscoveryStrategy) Start(_ context.Context, opts hzdiscovery.StrategyOptions) error {
+	ds.usePublicIP = opts.UsePublicIP
 	ds.logger = opts.Logger
 	ds.client.logger = ds.logger
 	ds.debug(func() string {
@@ -45,7 +47,7 @@ func (ds *EC2DiscoveryStrategy) Start(_ context.Context, opts hzdiscovery.Strate
 }
 
 func (ds *EC2DiscoveryStrategy) DiscoverNodes(ctx context.Context) ([]hzdiscovery.Node, error) {
-	ds.debug(func() string {
+	ds.trace(func() string {
 		return "aws.EC2DiscoveryStrategy.DiscoverNodes"
 	})
 	iss, err := ds.client.GetInstances(ctx, ds.filters...)
@@ -55,12 +57,14 @@ func (ds *EC2DiscoveryStrategy) DiscoverNodes(ctx context.Context) ([]hzdiscover
 	var nodes []hzdiscovery.Node
 	for port := ds.portRange.Min; port <= ds.portRange.Max; port++ {
 		for _, is := range iss {
-			p := is.PublicIP + ":" + strconv.Itoa(port)
-			pr := is.PrivateIP + ":" + strconv.Itoa(port)
-			nodes = append(nodes, hzdiscovery.Node{
-				PublicAddr:  p,
-				PrivateAddr: pr,
-			})
+			p := strconv.Itoa(port)
+			node := hzdiscovery.Node{
+				PrivateAddr: is.PrivateIP + ":" + p,
+			}
+			if ds.usePublicIP {
+				node.PublicAddr = is.PublicIP + ":" + p
+			}
+			nodes = append(nodes, node)
 		}
 	}
 	return nodes, nil
@@ -68,4 +72,8 @@ func (ds *EC2DiscoveryStrategy) DiscoverNodes(ctx context.Context) ([]hzdiscover
 
 func (ds *EC2DiscoveryStrategy) debug(f func() string) {
 	ds.logger.Log(logger.WeightDebug, f)
+}
+
+func (ds *EC2DiscoveryStrategy) trace(f func() string) {
+	ds.logger.Log(logger.WeightTrace, f)
 }
