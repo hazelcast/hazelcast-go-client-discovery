@@ -12,19 +12,13 @@ This package implements AWS EC2 discovery strategy for [Hazelcast Go Client](htt
 
 ### Add the Package Dependency
 
-Use the following `go.mod` file or incorporate the `require`section in your own `go.mod` file.
+Add the following dependencies to your project.
 Note that the instructions in this section will change once the GA version is released. 
 
 ```
-go 1.18
-
-require (
-    github.com/aws/aws-sdk-go-v2/config v1.18.15
-    github.com/hazelcast/hazelcast-go-client v1.4.0
-    github.com/hazelcast/hazelcast-go-client-discovery v0.0.0-20230309191213-822637b03020
-)
+$ go get github.com/aws/aws-sdk-go-v2/config@v1.18.15
+$ go get go get github.com/hazelcast/hazelcast-go-client-discovery@b4bf756df29708606c737f1fdb4c384f5a41c004
 ```
-
 And run `go mod tidy`
 
 ### Create the AWS Configuration
