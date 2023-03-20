@@ -12,7 +12,7 @@ This package implements AWS EC2 discovery strategy for [Hazelcast Go Client](htt
 
 ### Add the Package Dependency
 
-Use the following `go.mod` file or incorporate the `require` and `replace` sections in your own `go.mod` file.
+Use the following `go.mod` file or incorporate the `require`section in your own `go.mod` file.
 Note that the instructions in this section will change once the GA version is released. 
 
 ```
@@ -23,8 +23,6 @@ require (
     github.com/hazelcast/hazelcast-go-client v1.4.0
     github.com/hazelcast/hazelcast-go-client-discovery v0.0.0-20230309191213-822637b03020
 )
-
-replace github.com/hazelcast/hazelcast-go-client v1.4.0 => github.com/hazelcast/hazelcast-go-client v1.3.1-0.20230309185934-ce3e7d2b1ade
 ```
 
 And run `go mod tidy`

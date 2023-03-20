@@ -28,5 +28,3 @@ require (
 	github.com/tklauser/numcpus v0.2.1 // indirect
 	golang.org/x/sys v0.1.0 // indirect
 )
-
-replace github.com/hazelcast/hazelcast-go-client v1.4.0 => github.com/hazelcast/hazelcast-go-client v1.3.1-0.20230314121813-23e22086b61d
