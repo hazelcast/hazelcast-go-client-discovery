@@ -61,8 +61,15 @@ if err != nil {
 var cfg hazelcast.Config
 cfg.Cluster.Discovery.Strategy = strategy
 // set this if the client and members are not on the same network.
+// note that, in that case the members should be configured to provide public addresses.
 cfg.Cluster.Discovery.UsePublicIP = true
 ```
+
+If you need to enable `UsePublicIP`, see the following documentation to configure the members:
+
+* `hazelcast.discovery.public.ip.enabled` system property at https://docs.hazelcast.com/hazelcast/5.2/system-properties#hide-nav
+* https://docs.hazelcast.com/hazelcast/5.2/clusters/network-configuration#public-address
+* https://docs.hazelcast.com/hazelcast/5.2/deploy/deploying-on-aws#ec2-configuration
 
 ### Create and Start the Hazelcast Client Instance
 
