@@ -17,7 +17,7 @@ Note that the instructions in this section will change once the GA version is re
 
 ```
 $ go get github.com/aws/aws-sdk-go-v2/config@v1.18.15
-$ go get go get github.com/hazelcast/hazelcast-go-client-discovery@b4bf756df29708606c737f1fdb4c384f5a41c004
+$ go get go get github.com/hazelcast/hazelcast-go-client-discovery@a3e7012df6e029521370c855a11deeee9ecd1a33
 ```
 And run `go mod tidy`
 
