@@ -79,3 +79,11 @@ if err != nil {
     panic(err)
 }
 ```
+
+## License
+
+[Apache 2 License](https://github.com/hazelcast/hazelcast-go-client-discovery/blob/master/LICENSE).
+
+Copyright (c) 2023, Hazelcast, Inc. All Rights Reserved.
+
+Visit [www.hazelcast.com](http://www.hazelcast.com) for more information.
