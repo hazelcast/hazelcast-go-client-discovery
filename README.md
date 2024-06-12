@@ -66,9 +66,9 @@ cfg.Cluster.Discovery.UsePublicIP = true
 
 If you need to enable `UsePublicIP`, see the following documentation to configure the members:
 
-* `hazelcast.discovery.public.ip.enabled` system property at https://docs.hazelcast.com/hazelcast/5.2/system-properties#hide-nav
-* https://docs.hazelcast.com/hazelcast/5.2/clusters/network-configuration#public-address
-* https://docs.hazelcast.com/hazelcast/5.2/deploy/deploying-on-aws#ec2-configuration
+* `hazelcast.discovery.public.ip.enabled` system property at https://docs.hazelcast.com/hazelcast/latest/system-properties#hide-nav
+* https://docs.hazelcast.com/hazelcast/latest/clusters/network-configuration#public-address
+* https://docs.hazelcast.com/hazelcast/latest/deploy/deploying-on-aws#ec2-configuration
 
 ### Create and Start the Hazelcast Client Instance
 
